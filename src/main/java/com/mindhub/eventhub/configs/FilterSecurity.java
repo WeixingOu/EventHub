@@ -23,21 +23,21 @@ public class FilterSecurity {
         } )
         .csrf(httpSecurityCsrfConfigurer -> httpSecurityCsrfConfigurer.disable())
         .headers(httpSecurityHeadersConfigurer -> httpSecurityHeadersConfigurer.frameOptions(
-                frameOptionsConfig -> frameOptionsConfig.disable()))
+            frameOptionsConfig -> frameOptionsConfig.disable()))
         .formLogin( formLogin -> {
             formLogin.loginPage("/index.html")
-                    .loginProcessingUrl("/api/login")
-                    .usernameParameter("email")
-                    .passwordParameter("password")
-                    .permitAll()
-                    .successHandler((request, response, authentication) -> clearAuthenticationAttributes(request))
-                    .failureHandler((request, response, exception) -> response.sendError(401, "Invalid user or password"));
+                .loginProcessingUrl("/api/login")
+                .usernameParameter("email")
+                .passwordParameter("password")
+                .permitAll()
+                .successHandler((request, response, authentication) -> clearAuthenticationAttributes(request))
+                .failureHandler((request, response, exception) -> response.sendError(401, "Invalid user or password"));
         })
         .logout(httpSecurityLogoutConfigurer ->
-                httpSecurityLogoutConfigurer
-                        .logoutUrl("/api/logout")
-                        .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler())
-                        .deleteCookies("JSESSIONID"))
+            httpSecurityLogoutConfigurer
+                .logoutUrl("/api/logout")
+                .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler())
+                .deleteCookies("JSESSIONID"))
         .rememberMe(Customizer.withDefaults());
     return http.build();
     }

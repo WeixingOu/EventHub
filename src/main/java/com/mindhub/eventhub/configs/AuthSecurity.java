@@ -26,12 +26,9 @@ public class AuthSecurity extends GlobalAuthenticationConfigurerAdapter {
     @Override
     public void init(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(inputEmail -> {
-            Customer customer = customerRepository.findByEmail(inputEmail);
-            if (customer != null) {
-                return new User(customer.getEmail(), customer.getPassword(), AuthorityUtils.createAuthorityList("USER"));
-            } else {
-                throw new UsernameNotFoundException("Email invalid");
-            }
+            return customerRepository.findByEmail(inputEmail)
+                .map(customer -> new User(customer.getEmail(), customer.getPassword(), AuthorityUtils.createAuthorityList("USER")))
+                .orElseThrow(() -> new UsernameNotFoundException("Email invalid"));
         }).passwordEncoder(passwordEncoder());
     }
 }

@@ -2,6 +2,7 @@ package com.mindhub.eventhub.models;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -12,6 +13,8 @@ public class Comment {
 
     @Column(nullable = false, length = 254)
     private String comment;
+    @Column(nullable = false)
+    private LocalDateTime createdAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id", nullable = false)
@@ -26,6 +29,7 @@ public class Comment {
 
     public Comment(String comment) {
         this.comment = comment;
+        this.createdAt = LocalDateTime.now();
     }
 
     public UUID getCommentId() {
@@ -54,5 +58,9 @@ public class Comment {
 
     public void setEvent(Event event) {
         this.event = event;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 }

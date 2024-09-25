@@ -1,5 +1,6 @@
 package com.mindhub.eventhub.models;
 
+import com.mindhub.eventhub.enums.Role;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
@@ -24,9 +25,12 @@ public class Event {
     @Column(nullable = false, length = 150)
     private String name;
 
+    @Column(nullable = false)
+    private boolean active = true;
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "organizer_id", nullable = false)
-    private Customer organizer;
+    @JoinColumn(name = "id", nullable = false)
+    private Manager manager;
 
     @OneToMany(mappedBy = "event", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<CustomerEvent> participants = new HashSet<>();
@@ -65,6 +69,14 @@ public class Event {
         return description;
     }
 
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
     public void setDescription(String description) {
         this.description = description;
     }
@@ -93,12 +105,12 @@ public class Event {
         this.name = name;
     }
 
-    public Customer getOrganizer() {
-        return organizer;
+    public Manager getManager() {
+        return manager;
     }
 
-    public void setOrganizer(Customer organizer) {
-        this.organizer = organizer;
+    public void setManager(Manager manager) {
+        this.manager = manager;
     }
 
     public Set<CustomerEvent> getParticipants() {
@@ -137,7 +149,7 @@ public class Event {
     }
 
     public void addRating(Rating rating) {
-        this.ratings.add(rating);
+        ratings.add(rating);
         rating.setEvent(this);
     }
 

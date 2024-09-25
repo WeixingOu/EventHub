@@ -5,6 +5,7 @@ import com.mindhub.eventhub.enums.*;
 import com.mindhub.eventhub.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -13,7 +14,8 @@ import java.util.Set;
 
 @Component
 public class DataLoader implements CommandLineRunner {
-    private final CustomerRepository customerRepository;
+    private final ParticipantRepository participantRepository;
+    private final ManagerRepository managerRepository;
     private final EventRepository eventRepository;
     private final LocationRepository locationRepository;
     private final EventLocationRepository eventLocationRepository;
@@ -21,19 +23,22 @@ public class DataLoader implements CommandLineRunner {
     private final CommentRepository commentRepository;
     private final RatingRepository ratingRepository;
     private final CategoryRepository categoryRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
     public DataLoader(
-        CustomerRepository customerRepository,
+        ParticipantRepository participantRepository,
         EventRepository eventRepository,
         LocationRepository locationRepository,
         EventLocationRepository eventLocationRepository,
         CustomerEventRepository customerEventRepository,
         CommentRepository commentRepository,
         RatingRepository ratingRepository,
-        CategoryRepository categoryRepository
+        CategoryRepository categoryRepository,
+        ManagerRepository managerRepository,
+        PasswordEncoder passwordEncoder
     ) {
-        this.customerRepository = customerRepository;
+        this.participantRepository = participantRepository;
         this.eventRepository = eventRepository;
         this.locationRepository = locationRepository;
         this.eventLocationRepository = eventLocationRepository;
@@ -41,14 +46,16 @@ public class DataLoader implements CommandLineRunner {
         this.commentRepository = commentRepository;
         this.ratingRepository = ratingRepository;
         this.categoryRepository = categoryRepository;
+        this.managerRepository = managerRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     public void run(String... args) throws Exception {
-        Customer customer1 = new Customer("John", "Doe", "john.doe@example.com", true, "password123", (short) 30, Gender.MALE, Role.USER);
-        Customer customer2 = new Customer("Jane", "Doe", "jane.doe@example.com", true, "password456", (short) 28, Gender.FEMALE, Role.MANAGER);
-        customerRepository.save(customer1);
-        customerRepository.save(customer2);
+        Manager manager1 = new Manager("John", "Doe", "john.doe@example.com", passwordEncoder.encode("password123"), (short) 30, Gender.MALE, Role.MANAGER);
+        Participant participant1 = new Participant("Jane", "Smith", "jane.smith@example.com", passwordEncoder.encode("password123"), (short) 25, Gender.FEMALE, Role.PARTICIPANT);
+        managerRepository.save(manager1);
+        participantRepository.save(participant1);
 
         Category category1 = new Category("Music");
         Category category2 = new Category("Sports");
@@ -60,14 +67,14 @@ public class DataLoader implements CommandLineRunner {
         Event event1 = new Event("Concert by the lake", "concert.jpg", (short) 18, "Lake Music Fest");
         Event event2 = new Event("Football Championship", "football.jpg", (short) 12, "Local Football Championship");
 
-        event1.setOrganizer(customer2);
-        event2.setOrganizer(customer2);
-
         event1.addCategories(category1);
         event1.addCategories(category3);
 
         event2.addCategories(category2);
         event2.addCategories(category3);
+
+        manager1.addEvent(event1);
+        manager1.addEvent(event2);
 
         eventRepository.save(event1);
         eventRepository.save(event2);
@@ -89,31 +96,31 @@ public class DataLoader implements CommandLineRunner {
 
         CustomerEvent customerEvent1 = new CustomerEvent(true);
         event1.addParticipants(customerEvent1);
-        customer1.addCustomerEvent(customerEvent1);
+        participant1.addCustomerEvent(customerEvent1);
         customerEventRepository.save(customerEvent1);
 
         CustomerEvent customerEvent2 = new CustomerEvent(false);
         event2.addParticipants(customerEvent2);
-        customer2.addCustomerEvent(customerEvent2);
+        participant1.addCustomerEvent(customerEvent2);
         customerEventRepository.save(customerEvent2);
 
         Comment comment1 = new Comment("Amazing concert!");
-        customer1.addComment(comment1);
+        participant1.addComment(comment1);
         event1.addComment(comment1);
         commentRepository.save(comment1);
 
         Comment comment2 = new Comment("Looking forward to this event.");
-        customer2.addComment(comment2);
+        manager1.addComment(comment2);
         event2.addComment(comment2);
         commentRepository.save(comment2);
 
         Rating rating1 = new Rating(5);
-        customer1.addRating(rating1);
+        participant1.addRating(rating1);
         event1.addRating(rating1);
         ratingRepository.save(rating1);
 
         Rating rating2 = new Rating(4);
-        customer1.addRating(rating2);
+        manager1.addRating(rating2);
         event2.addRating(rating2);
         ratingRepository.save(rating2);
     }

@@ -14,8 +14,8 @@ public class CustomerEvent {
     private boolean attended;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "customer_id")
-    private Customer customer;
+    @JoinColumn(name = "id")
+    private Participant participant;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "event_id")
@@ -32,12 +32,12 @@ public class CustomerEvent {
         return customerEventId;
     }
 
-    public Customer getCustomer() {
-        return customer;
+    public Participant getParticipant() {
+        return participant;
     }
 
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
+    public void setParticipant(Participant participant) {
+        this.participant = participant;
     }
 
     public Event getEvent() {

@@ -9,10 +9,11 @@ import java.util.Set;
 import java.util.UUID;
 
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID customerId;
+    private UUID id;
 
     @Column(nullable = false, length = 50)
     private String firstName;
@@ -36,10 +37,7 @@ public class Customer {
     private Gender gender;
 
     @Column(nullable = false)
-    private Role role = Role.USER;
-
-    @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<CustomerEvent> customerEvents = new HashSet<>();
+    private Role role;
 
     @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Comment> comments = new HashSet<>();
@@ -50,19 +48,18 @@ public class Customer {
     public Customer() {
     }
 
-    public Customer(String firstName, String lastName, String email, boolean active, String password, short age, Gender gender, Role role) {
+    public Customer(String firstName, String lastName, String email, String password, short age, Gender gender, Role role) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.active = active;
         this.password = password;
         this.age = age;
         this.gender = gender;
         this.role = role;
     }
 
-    public UUID getCustomerId() {
-        return customerId;
+    public UUID getId() {
+        return id;
     }
 
     public String getFirstName() {
@@ -129,21 +126,12 @@ public class Customer {
         this.role = role;
     }
 
-    public Set<CustomerEvent> getCustomerEvents() {
-        return customerEvents;
-    }
-
     public Set<Comment> getComments() {
         return comments;
     }
 
     public Set<Rating> getRatings() {
         return ratings;
-    }
-
-    public void addCustomerEvent(CustomerEvent customerEvent) {
-        customerEvent.setCustomer(this);
-        customerEvents.add(customerEvent);
     }
 
     public void addComment(Comment comment) {
