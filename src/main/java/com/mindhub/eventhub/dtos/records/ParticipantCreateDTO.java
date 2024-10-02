@@ -1,4 +1,4 @@
-package com.mindhub.eventhub.dtos;
+package com.mindhub.eventhub.dtos.records;
 
 import com.mindhub.eventhub.enums.Gender;
 import com.mindhub.eventhub.validations.annotations.EmailUnique;

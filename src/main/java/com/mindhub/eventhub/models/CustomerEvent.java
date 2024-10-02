@@ -10,9 +10,6 @@ public class CustomerEvent {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID customerEventId;
 
-    @Column(nullable = false)
-    private boolean attended;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id")
     private Participant participant;
@@ -22,10 +19,6 @@ public class CustomerEvent {
     private Event event;
 
     public CustomerEvent() {
-    }
-
-    public CustomerEvent(boolean attended) {
-        this.attended = attended;
     }
 
     public UUID getCustomerEventId() {
@@ -46,13 +39,5 @@ public class CustomerEvent {
 
     public void setEvent(Event event) {
         this.event = event;
-    }
-
-    public boolean isAttended() {
-        return attended;
-    }
-
-    public void setAttended(boolean attended) {
-        this.attended = attended;
     }
 }

@@ -1,4 +1,4 @@
-package com.mindhub.eventhub.dtos;
+package com.mindhub.eventhub.dtos.records;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;

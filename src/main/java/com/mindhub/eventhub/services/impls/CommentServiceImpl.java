@@ -1,6 +1,6 @@
 package com.mindhub.eventhub.services.impls;
 
-import com.mindhub.eventhub.dtos.CommentCreateDTO;
+import com.mindhub.eventhub.dtos.records.CommentCreateDTO;
 import com.mindhub.eventhub.dtos.CommentDTO;
 import com.mindhub.eventhub.mappers.CommentMapper;
 import com.mindhub.eventhub.models.Comment;

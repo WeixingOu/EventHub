@@ -10,7 +10,7 @@ import java.util.UUID;
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+    private Long id;
 
     @Column(nullable = false, length = 100)
     private String name;

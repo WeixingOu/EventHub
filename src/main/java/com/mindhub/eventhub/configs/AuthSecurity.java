@@ -1,4 +1,4 @@
-package com.mindhub.eventhub.configs;
+/*package com.mindhub.eventhub.configs;
 
 import com.mindhub.eventhub.models.Customer;
 import com.mindhub.eventhub.repositories.CustomerRepository;
@@ -31,4 +31,5 @@ public class AuthSecurity extends GlobalAuthenticationConfigurerAdapter {
                 .orElseThrow(() -> new UsernameNotFoundException("Email invalid"));
         }).passwordEncoder(passwordEncoder());
     }
-}
+}*/
+

@@ -15,7 +15,9 @@ public class EventLocation {
     private LocalDate eventDate;
 
     @Column(nullable = false)
-    private int assistance;
+    private int capacity;
+    @Column(nullable = false)
+    private boolean active = true;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "event_id", nullable = false)
@@ -29,9 +31,9 @@ public class EventLocation {
 
     }
 
-    public EventLocation(LocalDate eventDate, int assistance) {
+    public EventLocation(LocalDate eventDate, int capacity) {
         this.eventDate = eventDate;
-        this.assistance = assistance;
+        this.capacity = capacity;
     }
 
     public UUID getEventLocationId() {
@@ -46,12 +48,12 @@ public class EventLocation {
         this.eventDate = eventDate;
     }
 
-    public int getAssistance() {
-        return assistance;
+    public int getCapacity() {
+        return capacity;
     }
 
-    public void setAssistance(int assistance) {
-        this.assistance = assistance;
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
     }
 
     public Event getEvent() {
@@ -68,5 +70,13 @@ public class EventLocation {
 
     public void setLocation(Location location) {
         this.location = location;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

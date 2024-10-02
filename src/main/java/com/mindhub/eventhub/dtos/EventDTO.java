@@ -1,5 +1,8 @@
 package com.mindhub.eventhub.dtos;
 
+
+import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 public class EventDTO {
@@ -9,14 +12,16 @@ public class EventDTO {
     private short ageReq;
     private String name;
     private ManagerDTO manager;
+    private boolean active = true;
 
-    public EventDTO(UUID eventId, String description, String image, short ageReq, String name, ManagerDTO manager) {
+    public EventDTO(UUID eventId, String description, String image, short ageReq, String name, ManagerDTO manager, boolean active) {
         this.eventId = eventId;
         this.description = description;
         this.image = image;
         this.ageReq = ageReq;
         this.name = name;
         this.manager = manager;
+        this.active = active;
     }
 
     public UUID getEventId() {
@@ -41,5 +46,9 @@ public class EventDTO {
 
     public ManagerDTO getManager() {
         return manager;
+    }
+
+    public boolean isActive() {
+        return active;
     }
 }

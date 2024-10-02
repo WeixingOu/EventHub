@@ -94,12 +94,12 @@ public class DataLoader implements CommandLineRunner {
         location2.addEventLocation(eventLocation2);
         eventLocationRepository.save(eventLocation2);
 
-        CustomerEvent customerEvent1 = new CustomerEvent(true);
+        CustomerEvent customerEvent1 = new CustomerEvent();
         event1.addParticipants(customerEvent1);
         participant1.addCustomerEvent(customerEvent1);
         customerEventRepository.save(customerEvent1);
 
-        CustomerEvent customerEvent2 = new CustomerEvent(false);
+        CustomerEvent customerEvent2 = new CustomerEvent();
         event2.addParticipants(customerEvent2);
         participant1.addCustomerEvent(customerEvent2);
         customerEventRepository.save(customerEvent2);

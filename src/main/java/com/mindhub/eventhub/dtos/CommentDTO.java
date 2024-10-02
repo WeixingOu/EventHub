@@ -8,12 +8,12 @@ import static java.time.format.DateTimeFormatter.*;
 public class CommentDTO {
     private String comment;
     private String createdAt;
-    private CustomerCommentDTO customerCommentDTO;
+    private CustomerCommentDTO customer;
 
-    public CommentDTO(String comment, LocalDateTime  createdAt, CustomerCommentDTO customerCommentDTO) {
+    public CommentDTO(String comment, LocalDateTime  createdAt, CustomerCommentDTO customer) {
         this.comment = comment;
         this.createdAt = createdAt.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
-        this.customerCommentDTO = customerCommentDTO;
+        this.customer = customer;
     }
 
     public String getComment() {
@@ -24,7 +24,7 @@ public class CommentDTO {
         return createdAt;
     }
 
-    public CustomerCommentDTO getCustomerCommentDTO() {
-        return customerCommentDTO;
+    public CustomerCommentDTO getCustomer() {
+        return customer;
     }
 }
